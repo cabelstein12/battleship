@@ -1,7 +1,42 @@
 import './style.css';
 
 function component(){
+  // 'use strict';
+// import playerOne from './app'
+// console.log(playerOne)
 
-};
+  // console.log(playerOne)
+  const content = document.querySelector('.content');
+  // console.log(content)
+  const currentPlayer = document.querySelector('#currentPlayer').textContent = 'Player One\'s turn'
+  const defenseGrid = document.createElement('div');
+        defenseGrid.setAttribute('id', 'defense');
 
-document.body.appendChild(component())
+  const offenseGrid = document.createElement('div');
+        offenseGrid.setAttribute('id', 'offense');
+
+        content.append(defenseGrid);
+        content.append(offenseGrid)
+
+  function createGrid(parent, name){
+      const gridID = document.createElement('div');
+        gridID.textContent = name;
+        gridID.classList.add('gridID');
+        parent.append(gridID);
+
+      const coordinateContainer = document.createElement('div');
+      coordinateContainer.classList.add('grid')
+      parent.append(coordinateContainer)
+      for(let i = 0; i < 100; i++){
+          let element = document.createElement('div');
+          element.classList.add('coordinate');
+          coordinateContainer.append(element);
+      }
+  }
+  createGrid(defenseGrid, "Defensive Armada");
+
+  createGrid(offenseGrid, "Enemy Waters");
+
+}
+
+document.body.append(component())
