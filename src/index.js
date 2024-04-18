@@ -1,14 +1,9 @@
 import './style.css';
 import {playerOne, playerTwo, ships} from './classes.js';
-// classes();
 
 function component(){
   console.log(ships)
-  // 'use strict';
-
-  // console.log(playerOne)
   const content = document.querySelector('.content');
-  // console.log(content)
   const currentPlayer = document.querySelector('#currentPlayer').textContent = 'Player One\'s turn'
   const defenseGrid = document.createElement('div');
         defenseGrid.setAttribute('id', 'defense');
@@ -17,7 +12,7 @@ function component(){
         offenseGrid.setAttribute('id', 'offense');
 
         content.append(defenseGrid);
-        content.append(offenseGrid)
+        content.append(offenseGrid);
 
   function createGrid(parent, name){
       const gridID = document.createElement('div');
@@ -37,7 +32,7 @@ function component(){
   createGrid(defenseGrid, "Defensive Armada");
 
   createGrid(offenseGrid, "Enemy Waters");
-
 }
+component();
 
-document.body.append(component())
+// document.body.append(component())
