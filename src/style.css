@@ -42,7 +42,7 @@ header{
     grid-column-start: 2;
     grid-column-end: 2;
     position: fixed;
-    left: 2%;
+    left: 10%;
 }
 
 #defense .gridID{
@@ -53,7 +53,7 @@ header{
     grid-column-start: 4;
     grid-column-end: 4;
     position: fixed;
-    right: 5%
+    right: 10%
 }
 
 .gridID{
@@ -70,4 +70,21 @@ header{
     display: inline-grid;
     grid-template-columns: repeat(10, 1.5em);
     grid-template-rows: repeat(10, 1.5em);
+    padding: 25px;
  }
+
+ .occupied{
+    background-color: rgb(45, 45, 255);
+ }
+
+ .miss{
+    background-color: green;
+ }
+ .hit,
+ .joy{
+    background-color: red;
+ }
+
+.noJoy{
+    background-color: grey;
+}

@@ -27,7 +27,8 @@
     ]
     
     class GameBoard{
-        constructor(){
+        constructor(name){
+            this.name = name;
             this.grid = [];
             for(let x = 0; x < 10; x++){
                 for(let y = 0; y < 10; y++){
@@ -72,14 +73,36 @@
             if(this.grid[coord][2] !== undefined){
                 ship.hit();
                 if(ship.sunk){this.casualties.push(ship)};
+                this.grid[coord].push('Hit!')
                 return "Hit!"
             }else{
+                this.grid[coord][2] = 'miss'
                 this.missedShotLog.push(coord);
                 return "Miss!"
             }
         }
     }
+
+    function tempPlace(player){
+        let x;
+        for(let i = 0; i < 5; i++){
+            x = i * 2;
+            player.placeShip(x, "vertical", ships[i])
+        }
+    }
+
     
-    const playerOne = new GameBoard();
-    const playerTwo = new GameBoard();    
+    const playerOne = new GameBoard('Player One');
+    const playerTwo = new GameBoard('Player Two');
+    
+    tempPlace(playerOne);
+    tempPlace(playerTwo);
+
+    playerOne.receiveAttack(1);
+    playerOne.receiveAttack(10);
+    playerOne.receiveAttack(22);
+    playerOne.receiveAttack(49);
+    playerTwo.receiveAttack(0);
+    playerTwo.receiveAttack(5);
+
     export {playerOne, playerTwo, ships}
