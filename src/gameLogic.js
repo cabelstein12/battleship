@@ -13,18 +13,12 @@
         isSunk(){
             if(this.timesHit == this.length){
                 this.sunk = true;
-                console.log('Sunk!');
+                console.log(this);
+                console.log(`Our ${this.name} has sunk, Captain!`);
             }
         }
     }
     
-    const ships = [
-        new Ship('Carrier', 5),
-        new Ship('Battleship', 4),
-        new Ship('Cruiser', 3),
-        new Ship('Submarine', 3),
-        new Ship('Destroyer', 2)
-    ]
     
     class GameBoard{
         constructor(name){
@@ -36,7 +30,14 @@
                 }
             }
         }
-    
+        
+        ships = [
+            new Ship('Carrier', 5),
+            new Ship('Battleship', 4),
+            new Ship('Cruiser', 3),
+            new Ship('Submarine', 3),
+            new Ship('Destroyer', 2)
+        ]
         placeShip(startIndex, direction, ship){
             let board = this;
             function checkValid(){
@@ -74,20 +75,21 @@
                 ship.hit();
                 if(ship.sunk){this.casualties.push(ship)};
                 this.grid[coord].push('Hit!')
+                console.log('Hit!')
                 return "Hit!"
             }else{
                 this.grid[coord][2] = 'miss'
                 this.missedShotLog.push(coord);
+                console.log('Missed!')
                 return "Miss!"
             }
         }
     }
 
-    function tempPlace(player){
-        let x;
+    function tempPlace(player, start){
         for(let i = 0; i < 5; i++){
-            x = i * 2;
-            player.placeShip(x, "vertical", ships[i])
+
+            player.placeShip(start + i, "vertical", player.ships[i])
         }
     }
 
@@ -95,14 +97,14 @@
     const playerOne = new GameBoard('Player One');
     const playerTwo = new GameBoard('Player Two');
     
-    tempPlace(playerOne);
-    tempPlace(playerTwo);
+    tempPlace(playerOne, 0);
+    tempPlace(playerTwo, 50);
 
-    playerOne.receiveAttack(1);
-    playerOne.receiveAttack(10);
-    playerOne.receiveAttack(22);
-    playerOne.receiveAttack(49);
-    playerTwo.receiveAttack(0);
-    playerTwo.receiveAttack(5);
+    // playerOne.receiveAttack(1);
+    // playerOne.receiveAttack(10);
+    // playerOne.receiveAttack(22);
+    // playerOne.receiveAttack(49);
+    // playerTwo.receiveAttack(0);
+    // playerTwo.receiveAttack(5);
 
-    export {playerOne, playerTwo, ships}
+    export {playerOne, playerTwo}

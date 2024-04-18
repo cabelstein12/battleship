@@ -21,12 +21,12 @@ header{
 }
 
 #offense .coordinate:hover {
-    background-color: rgba(225, 49, 49, 0.866);
+    background-color: rgba(0, 0, 0, 0.866);
 }
 
-#defense .coordinate:hover {
+/* #defense .coordinate:hover {
     background-color: rgba(86, 86, 86, 0.589);
-}
+} */
 
 #defense,   
 #offense {
@@ -75,6 +75,10 @@ header{
 
  .occupied{
     background-color: rgb(45, 45, 255);
+ }
+
+ .occupied:hover{
+    background-color: rgb(138, 200, 255);
  }
 
  .miss{
