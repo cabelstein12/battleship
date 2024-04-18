@@ -1,9 +1,9 @@
 import './style.css';
 import {playerOne, playerTwo, ships} from './classes.js';
 // classes();
-console.log(playerOne)
 
 function component(){
+  console.log(ships)
   // 'use strict';
 
   // console.log(playerOne)
