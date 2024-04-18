@@ -1,5 +1,4 @@
 
-function component(){
     class Ship {
         constructor(length){
             this.length = length;
@@ -18,11 +17,13 @@ function component(){
         }
     }
     
-    const carrier = new Ship(5), 
-    battleship = new Ship(4),
-    cruiser = new Ship(3),
-    submarine = new Ship(3),
-    destroyer = new Ship(2);
+    const ships = [
+        new Ship('Carrier', 5),
+        new Ship('Battleship',4),
+        new Ship('Cruiser', 3),
+        new Ship('Submarine',3),
+        new Ship('Destroyer',2)
+    ]
     
     class GameBoard{
         constructor(){
@@ -37,7 +38,6 @@ function component(){
         placeShip(startIndex, direction, ship){
             let board = this;
             function checkValid(){
-                // console.log(board)
                 if(direction == "horizontal"){
                     if(board.grid[startIndex + ship.length] !== undefined){
                         return true;
@@ -53,7 +53,6 @@ function component(){
             let lengthCount = ship.length;
             let start = startIndex
             while(lengthCount > 0){
-                // this.grid[start].push('o');
                 this.grid[start].push(ship);
                 if(direction == 'horizontal' && checkValid()){
                     start++;
@@ -75,21 +74,11 @@ function component(){
                 return "Hit!"
             }else{
                 this.missedShotLog.push(coord);
-                // console.log(this.missedShotLog)
                 return "Miss!"
             }
         }
     }
     
     const playerOne = new GameBoard();
-    const playerTwoDefense = new GameBoard();
-    // playerOne.placeShip(50, "vertical", destroyer);
-    // playerOne.receiveAttack(50);
-    // playerOne.receiveAttack(60);
-    // console.log(playerOne)
-    
-    
-    module.exports = {playerOne, playerTwoDefense, carrier, battleship, cruiser, destroyer, submarine, GameBoard}
-};
-
-// document.body.appendChild(component())
+    const playerTwo = new GameBoard();    
+    export {playerOne, playerTwo, ships}

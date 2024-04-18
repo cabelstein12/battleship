@@ -1,9 +1,10 @@
 import './style.css';
+import {playerOne, playerTwo, ships} from './classes.js';
+// classes();
+console.log(playerOne)
 
 function component(){
   // 'use strict';
-// import playerOne from './app'
-// console.log(playerOne)
 
   // console.log(playerOne)
   const content = document.querySelector('.content');
