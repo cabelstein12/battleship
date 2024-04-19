@@ -95,8 +95,8 @@
     const playerOne = new GameBoard('Player One');
     const playerTwo = new GameBoard('Player Two');
     
-    tempPlace(playerOne, 0);
-    tempPlace(playerTwo, 50);
+    // tempPlace(playerOne, 0);
+    // tempPlace(playerTwo, 50);
 
     // playerOne.receiveAttack(1);
     // playerOne.receiveAttack(10);
@@ -105,4 +105,4 @@
     // playerTwo.receiveAttack(0);
     // playerTwo.receiveAttack(5);
 
-    module.exports = {playerOne, playerTwo, GameBoard}
+    module.exports = {playerOne, playerTwo}

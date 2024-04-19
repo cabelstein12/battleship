@@ -249,6 +249,7 @@
   },
   "scripts": {
     "test": "jest",
+    "watch": "jest --watchAll",
     "build": "webpack",
     "dev": "webpack server"
   },
