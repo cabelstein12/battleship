@@ -1,4 +1,3 @@
-
     class Ship {
         constructor(name, length){
             this.name = name;
@@ -18,7 +17,6 @@
             }
         }
     }
-    
     
     class GameBoard{
         constructor(name){
@@ -107,4 +105,4 @@
     // playerTwo.receiveAttack(0);
     // playerTwo.receiveAttack(5);
 
-    export {playerOne, playerTwo}
+    module.exports = {playerOne, playerTwo, GameBoard}
