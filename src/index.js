@@ -104,8 +104,12 @@ function component(){
   attackCoordinates.forEach((e) => {
     e.addEventListener('click', function(){
       let target = parseInt(this.getAttribute('id'));
-      console.log(target);
+      // console.log(target);
       nextPlayer.receiveAttack(target);
+      if(nextPlayer.checkDefeat()){
+        console.log("GAME OVER", `${nextPlayer.name} loses`);
+
+      }
       changePlayer(); 
       updateLogs();
     })

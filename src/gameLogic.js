@@ -74,6 +74,8 @@ class GameBoard{
 
     receiveAttack(coord){
         let ship = this.grid[coord][2];
+        // console.log(this.checkDefeat)
+
         if(typeof this.grid[coord][2] == 'object'){
             ship.hit(); 
             if(ship.sunk){
@@ -108,8 +110,8 @@ function tempPlace(player, start){
 const playerOne = new GameBoard('Player One');
 const playerTwo = new GameBoard('Player Two');
 
-tempPlace(playerOne, 0);
-tempPlace(playerTwo, 50);
+// tempPlace(playerOne, 0);
+// tempPlace(playerTwo, 50);
 
 // playerOne.receiveAttack(1);
 // playerOne.receiveAttack(10);
