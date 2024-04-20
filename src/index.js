@@ -115,7 +115,6 @@ function component(){
     })
   })
   
-  // changePlayer();
   updateLogs();
 
 }
