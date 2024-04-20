@@ -1,5 +1,5 @@
 import './style.css';
-import {playerOne, playerTwo, ships} from './gameLogic.js';
+import {playerOne, playerTwo} from './gameLogic.js';
 
 function component(){
   let currentPlayer = playerOne;
@@ -102,7 +102,9 @@ function component(){
       let target = parseInt(this.getAttribute('id'));
       let attack = nextPlayer.receiveAttack(target);
       if(nextPlayer.checkDefeat()){
-        console.log("GAME OVER", `${nextPlayer.name} loses`);
+        console.log("GAME OVER", `${currentPlayer.name} Wins`);
+        updateLogs();
+        return;
       }
       if(attack !== "Try Again"){
         changePlayer(); 

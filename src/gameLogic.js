@@ -7,7 +7,7 @@ class Ship {
     }
     hit(){
         if(!this.sunk){this.timesHit++}
-        this.isSunk()
+        this.isSunk();
     }
     isSunk(){
         if(this.timesHit == this.length){
@@ -29,8 +29,8 @@ class GameBoard{
     }
     checkDefeat(){
         if(this.casualties.length == 5){
-            console.log(`${this.name} LOST`)
-            return true
+            console.log(`${this.name} LOST`);
+            return true;
         }
     }
     ships = [
@@ -63,7 +63,7 @@ class GameBoard{
                 start++;
             }
             if(direction == 'vertical' && checkValid){
-                start = start + 10
+                start = start + 10;
             }
             lengthCount--;
         }
@@ -77,21 +77,20 @@ class GameBoard{
         if(typeof this.grid[coord][2] == 'object' && this.grid[coord].length < 4){
             ship.hit(); 
             if(ship.sunk){
-                this.casualties.push(ship)
+                this.casualties.push(ship);
             };
-            this.grid[coord].push('Hit!')
-            console.log('Hit!')
-            return "Hit!"
+            this.grid[coord].push('Hit!');
+            console.log('Hit!');
+            return "Hit!";
         }
         if(this.grid[coord][2]== undefined){
             this.grid[coord][2] = 'miss'
             this.missedShotLog.push(coord);
-            console.log('Missed!')
-            return "Miss!" 
+            console.log('Missed!');
+            return "Miss!";
         }
         else {
             console.log('Coordinate already played... Try again');
-
             return "Try Again";
         }
     }
@@ -99,8 +98,7 @@ class GameBoard{
 
 function tempPlace(player, start){
     for(let i = 0; i < 5; i++){
-
-        player.placeShip(start + i, "vertical", player.ships[i])
+        player.placeShip(start + i, "vertical", player.ships[i]);
     }
 }
 
@@ -110,4 +108,4 @@ const playerTwo = new GameBoard('Player Two');
 tempPlace(playerOne, 0);
 tempPlace(playerTwo, 50);
 
-module.exports = {playerOne, playerTwo}
+module.exports = {playerOne, playerTwo};
