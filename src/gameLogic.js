@@ -12,8 +12,7 @@ class Ship {
     isSunk(){
         if(this.timesHit == this.length){
             this.sunk = true;
-            // console.log(this);
-            // console.log(`Our ${this.name} has sunk, Captain!`);
+            console.log(`Our ${this.name} has sunk, Captain!`);
         }
     }
 }
@@ -74,7 +73,6 @@ class GameBoard{
 
     receiveAttack(coord){
         let ship = this.grid[coord][2];
-        // console.log(this.checkDefeat)
 
         if(typeof this.grid[coord][2] == 'object' && this.grid[coord].length < 4){
             ship.hit(); 
@@ -92,9 +90,9 @@ class GameBoard{
             return "Miss!" 
         }
         else {
-            console.log('Coordinate already played...');
-            return;
-            
+            console.log('Coordinate already played... Try again');
+
+            return "Try Again";
         }
     }
 }
@@ -106,18 +104,10 @@ function tempPlace(player, start){
     }
 }
 
-
 const playerOne = new GameBoard('Player One');
 const playerTwo = new GameBoard('Player Two');
 
 tempPlace(playerOne, 0);
 tempPlace(playerTwo, 50);
-
-// playerOne.receiveAttack(1);
-// playerOne.receiveAttack(10);
-// playerOne.receiveAttack(22);
-// playerOne.receiveAttack(49);
-// playerTwo.receiveAttack(0);
-// playerTwo.receiveAttack(5);
 
 module.exports = {playerOne, playerTwo}

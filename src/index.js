@@ -2,8 +2,6 @@ import './style.css';
 import {playerOne, playerTwo, ships} from './gameLogic.js';
 
 function component(){
-  // console.log(playerOne)
-  // console.log(playerTwo)
   let currentPlayer = playerOne;
   let nextPlayer = playerTwo;
   const content = document.querySelector('.content');
@@ -79,7 +77,6 @@ function component(){
       e.classList.remove('joy');
       e.classList.remove('noJoy');
     })
-
   }
 
   function updateLogs(){
@@ -100,22 +97,19 @@ function component(){
     updateLogs();
   }
   
-// console.log(coordinates)
   attackCoordinates.forEach((e) => {
     e.addEventListener('click', function(){
       let target = parseInt(this.getAttribute('id'));
-      // console.log(target);
-      nextPlayer.receiveAttack(target);
+      let attack = nextPlayer.receiveAttack(target);
       if(nextPlayer.checkDefeat()){
         console.log("GAME OVER", `${nextPlayer.name} loses`);
-
       }
-      changePlayer(); 
+      if(attack !== "Try Again"){
+        changePlayer(); 
+      }
       updateLogs();
     })
   })
-  
   updateLogs();
-
 }
 component();
