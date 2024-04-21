@@ -25,6 +25,10 @@ header{
     background-color: rgba(0, 0, 0, 0.866);
 }
 
+#defense .coordinate:hover {
+    background-color: rgba(47, 216, 39, 0.866);
+}
+
 #defense,   
 #offense {
     display: inline-grid;
