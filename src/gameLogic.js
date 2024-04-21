@@ -105,7 +105,7 @@ function tempPlace(player, start){
 const playerOne = new GameBoard('Player One');
 const playerTwo = new GameBoard('Player Two');
 
-// tempPlace(playerOne, 0);
-// tempPlace(playerTwo, 50);
+tempPlace(playerOne, 0);
+tempPlace(playerTwo, 50);
 
 module.exports = {playerOne, playerTwo};

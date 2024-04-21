@@ -8,35 +8,37 @@ function component(){
   const currentPlayerID = document.querySelector('#currentPlayerID');
         currentPlayerID.textContent = `${currentPlayer.name}, place your ships`;
 
-  const defenseGridElement = document.createElement('div');
-        defenseGridElement.setAttribute('id', 'defense');
+  function playerGrid(){  
+    const defenseGridElement = document.createElement('div');
+          defenseGridElement.setAttribute('id', 'defense');
+          
+    const offenseGridElement = document.createElement('div');
+          offenseGridElement.setAttribute('id', 'offense');
+
+          content.append(defenseGridElement);
+          content.append(offenseGridElement);
+
+    function createGrid(parent, name){
+        const gridID = document.createElement('div');
+              gridID.textContent = name;
+              gridID.classList.add('gridID');
+              parent.append(gridID);
         
-  const offenseGridElement = document.createElement('div');
-        offenseGridElement.setAttribute('id', 'offense');
+        const coordinateContainer = document.createElement('div');
+              coordinateContainer.classList.add('grid');
+              parent.append(coordinateContainer);
 
-        content.append(defenseGridElement);
-        content.append(offenseGridElement);
-
-  function createGrid(parent, name){
-      const gridID = document.createElement('div');
-            gridID.textContent = name;
-            gridID.classList.add('gridID');
-            parent.append(gridID);
-      
-      const coordinateContainer = document.createElement('div');
-            coordinateContainer.classList.add('grid');
-            parent.append(coordinateContainer);
-
-      for(let i = 0; i < 100; i++){
-          let element = document.createElement('div');
-          element.classList.add('coordinate');
-          element.setAttribute('id', i);
-          coordinateContainer.append(element);
-      }
+        for(let i = 0; i < 100; i++){
+            let element = document.createElement('div');
+            element.classList.add('coordinate');
+            element.setAttribute('id', i);
+            coordinateContainer.append(element);
+        }
   }
+
   createGrid(defenseGridElement, "Defensive Armada");
-  createGrid(offenseGridElement, "Enemy Waters");
-  
+  createGrid(offenseGridElement, "Enemy Waters");}
+    
   const defenseGrid = document.querySelector('#defense .grid');
   const attackGrid = document.querySelector('#offense .grid');
 
@@ -68,20 +70,34 @@ function component(){
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
   
-  function refreshGrid(){
-    defenseCoordinates.forEach((e) => {
-      e.classList.remove('occupied');
-      e.classList.remove('hit');
-      e.classList.remove('miss');
-    })
-    attackCoordinates.forEach((e) => {
-      e.classList.remove('joy');
-      e.classList.remove('noJoy');
-    })
+
+  let playerOneGrids = () => {
+    playerGrid();
+    generateDefenseLayout(playerOne);
+    generateOffenseLogs(playerTwo);
+  }
+  let playerTwoGrids = () => { 
+    playerGrid();
+    generateDefenseLayout(playerTwo);
+    generateOffenseLogs(playerOne);
   }
 
+  playerOneGrids();
+  // playerTwoGrids();
+  // function refreshGrid(){
+  //   defenseCoordinates.forEach((e) => {
+  //     e.classList.remove('occupied');
+  //     e.classList.remove('hit');
+  //     e.classList.remove('miss');
+  //   })
+  //   attackCoordinates.forEach((e) => {
+  //     e.classList.remove('joy');
+  //     e.classList.remove('noJoy');
+  //   })
+  // }
+
   function updateLogs(){
-    refreshGrid();
+    // refreshGrid();
     generateDefenseLayout(currentPlayer);
     generateOffenseLogs(nextPlayer);
   }
@@ -97,7 +113,7 @@ function component(){
     currentPlayerID.textContent = `${currentPlayer.name}'s turn`;
     updateLogs();
   }
-  function startAttacks(){
+
     attackCoordinates.forEach((e) => {
       e.addEventListener('click', function(){
           let target = parseInt(this.getAttribute('id'));
@@ -113,7 +129,7 @@ function component(){
           updateLogs();
         })
     })
-  }  
+  
   function shipFormation(player){
     console.log(player)
     let shipList = [...player.ships];
@@ -132,7 +148,7 @@ function component(){
       })
     })
   }
-  shipFormation(playerOne);
+  // shipFormation(playerOne);
   // shipFormation(playerTwo);  
 
   updateLogs();
