@@ -1,22 +1,20 @@
 // const { beforeEach } = require('jest-circus');
+const { default: expect } = require('expect');
 const game = require('./gameLogic');
 let playerOne = game.playerOne;
 let GameBoard = game.GameBoard;
-console.log(playerOne)
+// console.log(playerOne)
 let playerTwo = game.playerTwo;
-function clearBoard (player){player.grid = [];
-for(let x = 0; x < 10; x++){
-    for(let y = 0; y < 10; y++){
-        player.grid.push([x,y]);
-    }
-  }
-}
+
 
 beforeEach(() => {
     playerOne = game.playerOne
   });
 
-test('placing a ship vertically should add an "o" to the grid location', () => {
+  test('players grid should be 100 (10 x 10)', () => {
+      expect(playerOne.grid.length).toBe(100);
+  });
+test('placing a ship vertically should add an object to the grid location', () => {
     playerOne.placeShip(50, "vertical", playerOne.ships[4]);
     // console.log(playerOne.grid)
     expect(typeof playerOne.grid[50][2]).toBe('object');
@@ -25,9 +23,15 @@ test('placing a ship vertically should add an "o" to the grid location', () => {
     expect(typeof playerOne.grid[51][2]).not.toBe('object');
     expect(typeof playerOne.grid[53][2]).not.toBe('object');
 });
-test('placing a ship horizontally should add an "o" to the grid location', () => {
+
+test.only('placing vertically out of bounds should fail', () => {
+    expect(playerOne.placeShip(90,'vertical', playerOne.ships[4])).toBe(false);
+    expect(playerOne.placeShip(80,'vertical', playerOne.ships[4])).toBe(true);
+})
+
+test('placing a ship horizontally should add an object to the grid location', () => {
     expect(typeof playerOne.grid[50][2]).toBe('object');
-    console.log(playerOne.grid)
+    // console.log(playerOne.grid)
     playerOne.placeShip(50, "horizontal", playerOne.ships[4]);
     expect(typeof playerOne.grid[51][2]).toBe('object');
     expect(typeof playerOne.grid[49][2]).not.toBe('object');
@@ -35,9 +39,12 @@ test('placing a ship horizontally should add an "o" to the grid location', () =>
     expect(typeof playerOne.grid[60][2]).not.toBe('object');
     // console.log(playerOne.grid)
 });
-test('players grid should be 100 (10 x 10)', () => {
-    expect(playerOne.grid.length).toBe(100);
-});
+test('placing a ship horizontally out of bounds should fail', () => {
+    expect(playerOne.placeShip(8,'horizontal', playerOne.ships[4])).not.toBe(false);
+    expect(playerOne.placeShip(8,'horizontal', playerOne.ships[3])).toBe(false);
+    expect(playerOne.placeShip(7,'horizontal', playerOne.ships[3])).toBe(true);
+
+})
 test('receiveAttack() logs a hit or a miss', () => {
     playerOne.placeShip(50, "vertical", playerOne.ships[4]);
     expect(playerOne.receiveAttack(50)).toBe('Hit!');
@@ -51,7 +58,7 @@ test('when receiveAttack equals length, ship is sunk', () => {
     playerOne.receiveAttack(60);
     expect(playerOne.ships[4].sunk).toBe(true)
 });
-test.only('when all ships are sunk, game is over', () => {
+test('when all ships are sunk, game is over', () => {
     playerOne.placeShip(0, "horizontal", playerOne.ships[4]);
     playerOne.placeShip(10, "horizontal", playerOne.ships[3]);
     playerOne.placeShip(20, "horizontal", playerOne.ships[2]);
