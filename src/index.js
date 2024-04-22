@@ -121,9 +121,15 @@ function component(){
     function addShipToUi(){
       if(player.ships.length > 0){
       let target = parseInt(this.getAttribute('id'));
-      player.placeShip(target, 'horizontal', player.ships.shift());
-      generateDefenseLayout(player)
-      return;
+      let ship = player.ships.shift();
+      let placed = player.placeShip(target, 'vertical', ship);
+      if(placed){
+        generateDefenseLayout(player)
+        return;
+      }else {
+       player.ships.unshift(ship);
+       return;
+      }
       }
       
       console.log(`${player.name}'s ships in formation`, player.grid);
