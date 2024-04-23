@@ -61,22 +61,7 @@ class GameBoard{
         }
         return true;
         function checkValid(){
-            console.log(start)
-
-                if(direction == "horizontal"){
-                    if(board.grid[startIndex][1] + ship.length <= 10){
-                        return true;
-                    }
-                }
-                if(direction == "vertical"){
-                    if(board.grid[startIndex][0] + ship.length <= 10){
-                        return true;
-                    }
-                }
-                
-            
-                return false;
-            
+            return (direction == 'horizontal' && board.grid[startIndex][1] + ship.length <= 10) || (direction == 'vertical' && board.grid[startIndex][0] + ship.length <= 10)
         }
     }
     missedShotLog = [];
