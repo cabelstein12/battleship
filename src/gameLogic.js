@@ -46,8 +46,8 @@ class GameBoard{
         let start = startIndex
         while(lengthCount > 0){
             if(checkValid() == false || this.grid[start][2] !== undefined){
-                console.log('invalid location')
-                return false
+                console.log('invalid location');
+                return false;
             }
             this.grid[start].push(ship);
             direction == "horizontal" ? start++ : start = start + 10; 
@@ -94,8 +94,5 @@ function tempPlace(player, start){
 
 const playerOne = new GameBoard('Player One');
 const playerTwo = new GameBoard('Player Two');
-
-// tempPlace(playerOne, 0);
-// tempPlace(playerTwo, 50);
 
 module.exports = {playerOne, playerTwo};
