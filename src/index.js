@@ -100,6 +100,7 @@ function component(){
   function startAttacks(){
     attackCoordinates.forEach((e) => {
       e.addEventListener('click', function(){
+          console.log(currentPlayer.name)
           let target = parseInt(this.getAttribute('id'));
           let attack = nextPlayer.receiveAttack(target);
           if(nextPlayer.checkDefeat()){
@@ -114,7 +115,7 @@ function component(){
         })
     })
   }  
-  function beginShipFormation(player = playerOne){
+  function beginShipFormation(player){
     currentPlayer = player
     console.log(player)
     currentPlayerID.textContent = `${player.name}, place your ships`;
@@ -139,22 +140,25 @@ function component(){
       console.log(`${player.name}'s ships in formation`, player.grid);
       removeListeners();
       refreshGrid();
+      changePlayer()
       if(player == playerOne){
         beginShipFormation(playerTwo);
       }else{
-        console.log(player.name)
-      changePlayer()
-      updateLogs();
+        updateLogs();
+        console.log(player.name);
+        startAttacks();
+      }
     }
-  }
     
     function removeListeners(){
       defenseCoordinates.forEach((e) => {
         e.removeEventListener('click', addShipToUi);
       })
     }
+
   }
-  beginShipFormation();
+  beginShipFormation(playerOne);
+
   updateLogs();
 }
 component();
