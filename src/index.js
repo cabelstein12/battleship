@@ -131,7 +131,6 @@ function component(){
   function beginShipFormation(player){
     currentPlayer = player
 
-    console.log(player)
     currentPlayerID.textContent = `${player.name}, place your ships`;
     const controller = new AbortController();
     const { signal } = controller;
@@ -153,9 +152,7 @@ function component(){
         }
       }
       console.log(`${player.name}'s ships in formation`, player.grid);
-      console.log('Before removal:', document.querySelector('.grid').children[0]);
       controller.abort();
-      console.log('After removal:', document.querySelector('.grid').children[0]);
       refreshGrid();
       changePlayer()
       if(player == playerOne){
@@ -163,16 +160,10 @@ function component(){
       }else{
         updateLogs();
         console.log(player.name);
+        directionButton.remove();
         startAttacks();
       }
     }
-    
-    function removeListeners(){
-      defenseCoordinates.forEach((e) => {
-        e.removeEventListener('click', addShipToUi);
-      })
-    }
-
   }
   beginShipFormation(playerOne);
   updateLogs();
