@@ -115,6 +115,7 @@ function component(){
     })
   }  
   function beginShipFormation(player = playerOne){
+    currentPlayer = player
     console.log(player)
     currentPlayerID.textContent = `${player.name}, place your ships`;
     defenseCoordinates.forEach((e) => {
@@ -134,14 +135,19 @@ function component(){
         return;
         }
       }
-      
+
       console.log(`${player.name}'s ships in formation`, player.grid);
       removeListeners();
       refreshGrid();
-      beginShipFormation(playerTwo);
-      changePlayer();
+      if(player == playerOne){
+        beginShipFormation(playerTwo);
+      }else{
+        console.log(player.name)
+      changePlayer()
+      updateLogs();
     }
-
+  }
+    
     function removeListeners(){
       defenseCoordinates.forEach((e) => {
         e.removeEventListener('click', addShipToUi);
