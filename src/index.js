@@ -1,5 +1,6 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
+import { dir } from 'neo-async';
 
 function component(){
   let currentPlayer = playerOne;
@@ -114,20 +115,35 @@ function component(){
           updateLogs();
         })
     })
-  }  
+  } 
+  
+  let shipDirection = 'vertical'
+  function changeDirection(){
+    console.log(shipDirection)
+    shipDirection == 'vertical' ? shipDirection = 'horizontal' : shipDirection = 'vertical'; 
+    directionButton.textContent = `Place ${shipDirection}ly`;
+  }
+  let directionButton = document.createElement('button');
+  directionButton.classList.add('directionButton');
+  directionButton.textContent = `Place ${shipDirection}ly`;
+  directionButton.addEventListener('click', changeDirection)
+  document.body.insertBefore(directionButton, content)
   function beginShipFormation(player){
     currentPlayer = player
+
     console.log(player)
     currentPlayerID.textContent = `${player.name}, place your ships`;
+    const controller = new AbortController();
+    const { signal } = controller;
     defenseCoordinates.forEach((e) => {
-      e.addEventListener('click', addShipToUi)
+      e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal})
     })
 
-    function addShipToUi(){
-      let target = parseInt(this.getAttribute('id'));
+    function addShipToUi(direction, element, player){
+      let target = parseInt(element.getAttribute('id'));
       if(player.ships.length > 0){
         let ship = player.ships.shift();
-        let placed = player.placeShip(target, 'horizontal', ship);
+        let placed = player.placeShip(target, direction, ship);
         if(placed){
           generateDefenseLayout(player)
           return;
@@ -136,9 +152,10 @@ function component(){
         return;
         }
       }
-
       console.log(`${player.name}'s ships in formation`, player.grid);
-      removeListeners();
+      console.log('Before removal:', document.querySelector('.grid').children[0]);
+      controller.abort();
+      console.log('After removal:', document.querySelector('.grid').children[0]);
       refreshGrid();
       changePlayer()
       if(player == playerOne){
@@ -158,7 +175,6 @@ function component(){
 
   }
   beginShipFormation(playerOne);
-
   updateLogs();
 }
 component();
