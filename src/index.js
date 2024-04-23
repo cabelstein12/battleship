@@ -114,22 +114,25 @@ function component(){
         })
     })
   }  
-  function beginShipFormation(player){
+  function beginShipFormation(player = playerOne){
     console.log(player)
     currentPlayerID.textContent = `${player.name}, place your ships`;
+    defenseCoordinates.forEach((e) => {
+      e.addEventListener('click', addShipToUi)
+    })
 
     function addShipToUi(){
-      if(player.ships.length > 0){
       let target = parseInt(this.getAttribute('id'));
-      let ship = player.ships.shift();
-      let placed = player.placeShip(target, 'vertical', ship);
-      if(placed){
-        generateDefenseLayout(player)
+      if(player.ships.length > 0){
+        let ship = player.ships.shift();
+        let placed = player.placeShip(target, 'vertical', ship);
+        if(placed){
+          generateDefenseLayout(player)
+          return;
+        }else {
+        player.ships.unshift(ship);
         return;
-      }else {
-       player.ships.unshift(ship);
-       return;
-      }
+        }
       }
       
       console.log(`${player.name}'s ships in formation`, player.grid);
@@ -139,19 +142,13 @@ function component(){
       changePlayer();
     }
 
-    defenseCoordinates.forEach((e) => {
-      e.addEventListener('click', addShipToUi)
-    })
-
     function removeListeners(){
       defenseCoordinates.forEach((e) => {
         e.removeEventListener('click', addShipToUi);
       })
     }
   }
-  beginShipFormation(playerOne);
-  // shipFormation(playerTwo);  
-
+  beginShipFormation();
   updateLogs();
 }
 component();

@@ -42,23 +42,10 @@ class GameBoard{
     ]
     placeShip(startIndex, direction = 'horizontal', ship){
         let board = this;
-        function checkValid(){
-            if(direction == "horizontal"){
-                if(board.grid[startIndex][1] + ship.length <= 10){
-                    return true;
-                }
-            }
-            if(direction == "vertical"){
-                if(board.grid[startIndex][0] + ship.length <= 10){
-                    return true;
-                }
-            }
-            return false;
-        }
         let lengthCount = ship.length;
         let start = startIndex
         while(lengthCount > 0){
-            if(checkValid() == false){
+            if(checkValid() == false || this.grid[start][2] !== undefined){
                 console.log('invalid location')
                 return false
             }
@@ -73,6 +60,24 @@ class GameBoard{
             
         }
         return true;
+        function checkValid(){
+            console.log(start)
+
+                if(direction == "horizontal"){
+                    if(board.grid[startIndex][1] + ship.length <= 10){
+                        return true;
+                    }
+                }
+                if(direction == "vertical"){
+                    if(board.grid[startIndex][0] + ship.length <= 10){
+                        return true;
+                    }
+                }
+                
+            
+                return false;
+            
+        }
     }
     missedShotLog = [];
     casualties = [];
