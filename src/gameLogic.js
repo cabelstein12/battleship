@@ -50,14 +50,8 @@ class GameBoard{
                 return false
             }
             this.grid[start].push(ship);
-            if(direction == 'horizontal'){
-                start++;
-            }
-            if(direction == 'vertical'){
-                start = start + 10;
-            }
+            direction == "horizontal" ? start++ : start = start + 10; 
             lengthCount--;
-            
         }
         return true;
         function checkValid(){
@@ -79,7 +73,7 @@ class GameBoard{
             console.log('Hit!');
             return "Hit!";
         }
-        if(this.grid[coord][2]== undefined){
+        else if(this.grid[coord][2] == undefined){
             this.grid[coord][2] = 'miss'
             this.missedShotLog.push(coord);
             console.log('Missed!');

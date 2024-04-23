@@ -24,14 +24,13 @@ test('placing a ship vertically should add an object to the grid location', () =
     expect(typeof playerOne.grid[53][2]).not.toBe('object');
 });
 
-test.only('placing vertically out of bounds should fail', () => {
+test('placing vertically out of bounds should fail', () => {
     expect(playerOne.placeShip(90,'vertical', playerOne.ships[4])).toBe(false);
     expect(playerOne.placeShip(80,'vertical', playerOne.ships[4])).toBe(true);
 })
 
-test('placing a ship horizontally should add an object to the grid location', () => {
-    expect(typeof playerOne.grid[50][2]).toBe('object');
-    // console.log(playerOne.grid)
+test.only('placing a ship horizontally should add an object to the grid location', () => {
+
     playerOne.placeShip(50, "horizontal", playerOne.ships[4]);
     expect(typeof playerOne.grid[51][2]).toBe('object');
     expect(typeof playerOne.grid[49][2]).not.toBe('object');

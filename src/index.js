@@ -125,7 +125,7 @@ function component(){
       let target = parseInt(this.getAttribute('id'));
       if(player.ships.length > 0){
         let ship = player.ships.shift();
-        let placed = player.placeShip(target, 'vertical', ship);
+        let placed = player.placeShip(target, 'horizontal', ship);
         if(placed){
           generateDefenseLayout(player)
           return;
