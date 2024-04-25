@@ -91,8 +91,17 @@ function tempPlace(player, start){
         player.placeShip(start + i, "vertical", player.ships[i]);
     }
 }
-
 const playerOne = new GameBoard('Player One');
 const playerTwo = new GameBoard('Player Two');
+// tempPlace(playerOne, 0);
+// tempPlace(playerTwo, 0);
+
+function tempAttack(player){
+    for(let i = 0; i < 38; i++){
+        player.receiveAttack(i)
+    }
+}
+// tempAttack(playerOne);
+// tempAttack(playerTwo)
 
 module.exports = {playerOne, playerTwo};

@@ -1,6 +1,6 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
-import { dir } from 'neo-async';
+
 
 function component(){
   let currentPlayer = playerOne;
@@ -102,36 +102,38 @@ function component(){
       directionButton.textContent = `Place ${shipDirection}ly`;
       directionButton.addEventListener('click', changeDirection);
       document.body.insertBefore(directionButton, content);
-      
+
   beginShipFormation(playerOne);
   updateLogs();
 
   function beginShipFormation(player){
     currentPlayer = player
     currentPlayerID.textContent = `${player.name}, place your ships`;
-    const controller = new AbortController();
-    const { signal } = controller;
-    console.log(controller);
+    const defenseController = new AbortController();
+    const { signal } = defenseController;
 
     defenseCoordinates.forEach((e) => {
-      e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal})
+      e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
     })
 
-    function addShipToUi(direction, element, player){
-      let target = parseInt(element.getAttribute('id'));
+    function addShipToUi(direction, coordinate, player){
+      let target = parseInt(coordinate.getAttribute('id'));
       if(player.ships.length > 0){
         let ship = player.ships.shift();
-        let placed = player.placeShip(target, direction, ship);
-        if(placed){
-          generateDefenseLayout(player)
+        if(player.placeShip(target, direction, ship) == true){
+          generateDefenseLayout(player);
           return;
         }else {
         player.ships.unshift(ship);
         return;
-        }
-      }
-      console.log(`${player.name}'s ships in formation`, player.grid);
-      controller.abort();
+        };
+      }else {
+        defenseController.abort()
+        setUpNextPlayer();
+      };
+    };
+    function setUpNextPlayer(){
+      console.log(`${player.name}'s ships in formation`);
       refreshGrid();
       changePlayer();
       if(player == playerOne){
@@ -140,28 +142,34 @@ function component(){
         updateLogs();
         directionButton.remove();
         startAttacks();
-      }
-    }
-  }
+      };
+    };
+  };
 
   function startAttacks(){
+    const attackController = new AbortController();
+    const { signal } = attackController;
     attackCoordinates.forEach((e) => {
       e.addEventListener('click', function(){
           console.log(currentPlayer.name)
           let target = parseInt(this.getAttribute('id'));
           let attack = nextPlayer.receiveAttack(target);
           if(nextPlayer.checkDefeat()){
-            console.log("GAME OVER", `${currentPlayer.name} Wins`);
-            updateLogs();
-            return;
+            return endGame(attackController);
           }
           if(attack !== "Try Again"){
             changePlayer(); 
           }
           updateLogs();
-        })
-    })
-  } 
+        }, { signal })
+      })
+  }
+  function endGame(abortCntrl){
+    console.log("GAME OVER", `${currentPlayer.name} Wins`);
+    abortCntrl.abort();
+    updateLogs();
+    return;
+  }
 
 }
 component();
