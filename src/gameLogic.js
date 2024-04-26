@@ -18,7 +18,8 @@ class Ship {
 }
 
 class GameBoard{
-    constructor(name){
+    constructor(name, type){
+        this.type = type;
         this.name = name;
         this.grid = [];
         for(let x = 0; x < 10; x++){
@@ -91,17 +92,12 @@ function tempPlace(player, start){
         player.placeShip(start + i, "vertical", player.ships[i]);
     }
 }
-const playerOne = new GameBoard('Player One');
-const playerTwo = new GameBoard('Player Two');
-// tempPlace(playerOne, 0);
-// tempPlace(playerTwo, 0);
 
-function tempAttack(player){
-    for(let i = 0; i < 38; i++){
-        player.receiveAttack(i)
-    }
-}
-// tempAttack(playerOne);
-// tempAttack(playerTwo);
+
+const playerOne = new GameBoard('Player One', 'human');
+const playerTwo = new GameBoard('Player Two', 'computer');
+
+
+
 
 module.exports = {playerOne, playerTwo};

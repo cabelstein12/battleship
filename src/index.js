@@ -6,12 +6,31 @@ function component(){
   let currentPlayer = playerOne;
   let nextPlayer = playerTwo;
 
-  const content = document.querySelector('.content');
   const currentPlayerID = document.querySelector('#currentPlayerID');
         currentPlayerID.textContent = `${currentPlayer.name}, place your ships`;
 
   const defenseGridElement = document.getElementById('defense');
   const offenseGridElement = document.getElementById('offense');
+
+  createGrid(defenseGridElement);
+  createGrid(offenseGridElement);
+  
+  const defenseGrid = document.querySelector('#defense .grid');
+  const attackGrid = document.querySelector('#offense .grid');
+  
+  const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
+  const attackCoordinates = document.querySelectorAll("#offense .coordinate");
+
+  const playerInfo = document.querySelector('.playerInfo');
+  let shipDirection = 'horizontal';
+  let directionButton = document.createElement('button');
+      directionButton.classList.add('directionButton');
+      directionButton.textContent = `Place ${shipDirection}ly`;
+      directionButton.addEventListener('click', changeShipDirection);
+      playerInfo.append(directionButton);
+
+  beginShipFormation(playerOne);
+
 
   function createGrid(parent){
       const coordinateContainer = document.createElement('div');
@@ -24,13 +43,7 @@ function component(){
           element.setAttribute('id', i);
           coordinateContainer.append(element);
       }
-  }
-
-  createGrid(defenseGridElement);
-  createGrid(offenseGridElement);
-  
-  const defenseGrid = document.querySelector('#defense .grid');
-  const attackGrid = document.querySelector('#offense .grid');
+  };
 
   function generateDefenseLayout(player){
     for(let i = 0 ; i < player.grid.length; i++){
@@ -44,7 +57,7 @@ function component(){
         defenseGrid.children[i].classList.add('miss');
       }
     }
-  }
+  };
 
   function generateOffenseLogs(player){
     for(let i = 0; i < player.grid.length; i++){
@@ -55,11 +68,8 @@ function component(){
         attackGrid.children[i].classList.add('joy')
       }
     }
-  }
+  };
 
-  const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
-  const attackCoordinates = document.querySelectorAll("#offense .coordinate");
-  
   function refreshGrid(){
     defenseCoordinates.forEach((e) => {
       e.classList.remove('occupied');
@@ -70,13 +80,13 @@ function component(){
       e.classList.remove('joy');
       e.classList.remove('noJoy');
     })
-  }
+  };
 
   function updateGameboards(){
     refreshGrid();
     generateDefenseLayout(currentPlayer);
     generateOffenseLogs(nextPlayer);
-  }
+  };
   
   function changePlayer(){
     if(currentPlayer == playerOne){
@@ -88,35 +98,52 @@ function component(){
     }
     currentPlayerID.textContent = `${currentPlayer.name}'s turn`;
     updateGameboards();
-  }
+  };
   
-  let shipDirection = 'vertical';
-
   function changeShipDirection(){
     shipDirection == 'vertical' ? shipDirection = 'horizontal' : shipDirection = 'vertical'; 
     directionButton.textContent = `Placed ${shipDirection}ly`;
-  }
-
-  const playerInfo = document.querySelector('.playerInfo');
-  let directionButton = document.createElement('button');
-      directionButton.classList.add('directionButton');
-      directionButton.textContent = `Place ${shipDirection}ly`;
-      directionButton.addEventListener('click', changeShipDirection);
-      playerInfo.append(directionButton);
-      // document.body.insertBefore(directionButton, content);
-
-  beginShipFormation(playerOne);
-  updateGameboards();
+  };
 
   function beginShipFormation(player){
     currentPlayer = player
     currentPlayerID.textContent = `${player.name}, place your ships`;
     const defenseController = new AbortController();
     const { signal } = defenseController;
+    if(player.type == 'human'){
+      for(let i =0; i < 5; i++){
+        addShipToUi('vertical', document.getElementById(i), playerOne)
+      }
+      defenseCoordinates.forEach((e) => {
+        e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
+      })
+    }else {
+      placeShipsAtRandom();
+    };
 
-    defenseCoordinates.forEach((e) => {
-      e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
-    })
+      function placeShipsAtRandom(){
+        function generateRandomNumber(max){
+          const highestNum = max;
+          return function randomNum(cb){
+            let num = Math.floor(Math.random() * highestNum);
+            if(!cb){
+              return num;
+            }else {
+              return cb(num);
+            };
+          };
+        };
+        const randomNumberHistory = [];
+        const binaryRandomNumber = generateRandomNumber(2);
+        const inRangeRandomNumber = generateRandomNumber(100);
+        while(player.ships.length > 0){
+          addShipToUi(
+            binaryRandomNumber((num) => num == 0 ? 'horizontal' : 'vertical'), 
+            inRangeRandomNumber((num) => document.getElementById(num)),
+            currentPlayer);
+        };
+        setUpNextPlayer();
+      };
 
     function addShipToUi(direction, coordinate, player){
       let target = parseInt(coordinate.getAttribute('id'));
@@ -136,7 +163,6 @@ function component(){
     };
     function setUpNextPlayer(){
       console.log(`${player.name}'s ships in formation`);
-      refreshGrid();
       changePlayer();
       if(player == playerOne){
         beginShipFormation(playerTwo);
@@ -165,13 +191,13 @@ function component(){
           updateGameboards();
         }, { signal })
       })
-  }
+  };
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
     updateGameboards();
     return;
-  }
+  };
 
-}
+};
 component();
