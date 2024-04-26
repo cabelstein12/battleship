@@ -65,7 +65,10 @@ header{
 .playerInfo{
     height: max-content;
     display: flex;
+    justify-content: center;
 }
+
+
 
  .grid{
     /* position: relative; */
