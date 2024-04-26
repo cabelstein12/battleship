@@ -45,7 +45,7 @@ function component(){
       }
   };
 
-  function generateDefenseLayout(player){
+  function generateDefenseGrid(player){
     for(let i = 0 ; i < player.grid.length; i++){
       if(player.grid[i].length == 4){
         defenseGrid.children[i].classList.add('hit')
@@ -59,7 +59,7 @@ function component(){
     }
   };
 
-  function generateOffenseLogs(player){
+  function generateOffenseGrid(player){
     for(let i = 0; i < player.grid.length; i++){
       if(typeof player.grid[i][2] === 'string'){
         attackGrid.children[i].classList.add('noJoy');
@@ -70,7 +70,7 @@ function component(){
     }
   };
 
-  function refreshGrid(){
+  function clearGrid(){
     defenseCoordinates.forEach((e) => {
       e.classList.remove('occupied');
       e.classList.remove('hit');
@@ -83,9 +83,9 @@ function component(){
   };
 
   function updateGameboards(){
-    refreshGrid();
-    generateDefenseLayout(currentPlayer);
-    generateOffenseLogs(nextPlayer);
+    clearGrid();
+    generateDefenseGrid(currentPlayer);
+    generateOffenseGrid(nextPlayer);
   };
   
   function changePlayer(){
@@ -122,18 +122,7 @@ function component(){
     };
 
       function placeShipsAtRandom(){
-        function generateRandomNumber(max){
-          const highestNum = max;
-          return function randomNum(cb){
-            let num = Math.floor(Math.random() * highestNum);
-            if(!cb){
-              return num;
-            }else {
-              return cb(num);
-            };
-          };
-        };
-        const randomNumberHistory = [];
+
         const binaryRandomNumber = generateRandomNumber(2);
         const inRangeRandomNumber = generateRandomNumber(100);
         while(player.ships.length > 0){
@@ -150,7 +139,7 @@ function component(){
       if(player.ships.length > 0){
         let ship = player.ships.shift();
         if(player.placeShip(target, direction, ship) == true){
-          generateDefenseLayout(player);
+          generateDefenseGrid(player);
           return;
         }else {
         player.ships.unshift(ship);
@@ -173,10 +162,23 @@ function component(){
       };
     };
   };
+  const randomNumberHistory = [];
+  function generateRandomNumber(max){
+    const highestNum = max;
+    return function randomNum(cb){
+      let num = Math.floor(Math.random() * highestNum);
+      if(!cb){
+        return num;
+      }else {
+        return cb(num);
+      };
+    };
+  };
 
   function startAttacks(){
     const attackController = new AbortController();
     const { signal } = attackController;
+
     attackCoordinates.forEach((e) => {
       e.addEventListener('click', function(){
           console.log(currentPlayer.name)
@@ -195,7 +197,7 @@ function component(){
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
-    updateGameboards();
+    updateGameboards();//change me
     return;
   };
 
