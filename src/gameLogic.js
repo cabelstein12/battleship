@@ -102,6 +102,6 @@ function tempAttack(player){
     }
 }
 // tempAttack(playerOne);
-// tempAttack(playerTwo)
+// tempAttack(playerTwo);
 
 module.exports = {playerOne, playerTwo};

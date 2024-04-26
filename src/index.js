@@ -72,7 +72,7 @@ function component(){
     })
   }
 
-  function updateLogs(){
+  function updateGameboards(){
     refreshGrid();
     generateDefenseLayout(currentPlayer);
     generateOffenseLogs(nextPlayer);
@@ -87,24 +87,26 @@ function component(){
       nextPlayer = playerTwo;
     }
     currentPlayerID.textContent = `${currentPlayer.name}'s turn`;
-    updateLogs();
+    updateGameboards();
   }
   
   let shipDirection = 'vertical';
 
-  function changeDirection(){
+  function changeShipDirection(){
     shipDirection == 'vertical' ? shipDirection = 'horizontal' : shipDirection = 'vertical'; 
     directionButton.textContent = `Placed ${shipDirection}ly`;
   }
 
+  const playerInfo = document.querySelector('.playerInfo');
   let directionButton = document.createElement('button');
       directionButton.classList.add('directionButton');
       directionButton.textContent = `Place ${shipDirection}ly`;
-      directionButton.addEventListener('click', changeDirection);
-      document.body.insertBefore(directionButton, content);
+      directionButton.addEventListener('click', changeShipDirection);
+      playerInfo.append(directionButton);
+      // document.body.insertBefore(directionButton, content);
 
   beginShipFormation(playerOne);
-  updateLogs();
+  updateGameboards();
 
   function beginShipFormation(player){
     currentPlayer = player
@@ -139,7 +141,7 @@ function component(){
       if(player == playerOne){
         beginShipFormation(playerTwo);
       }else{
-        updateLogs();
+        updateGameboards();
         directionButton.remove();
         startAttacks();
       };
@@ -160,14 +162,14 @@ function component(){
           if(attack !== "Try Again"){
             changePlayer(); 
           }
-          updateLogs();
+          updateGameboards();
         }, { signal })
       })
   }
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
-    updateLogs();
+    updateGameboards();
     return;
   }
 

@@ -1,3 +1,7 @@
+body{
+    margin: 1%;
+}
+
 h1{
     border-bottom: 1px solid black;
     padding-bottom: 0px;
@@ -52,12 +56,17 @@ header{
 
 .gridID{
     padding:5px;
-    margin: 0px;
+    margin: 0px 22px;
     grid-row-start: 1;
     height: min-content;
     width: max-content;
-    
 }
+
+.playerInfo{
+    height: max-content;
+    display: flex;
+}
+
  .grid{
     /* position: relative; */
     grid-row-start: 2;
@@ -88,6 +97,8 @@ header{
 }
 
 .directionButton{
-    height: 40px;
+    padding: 5px;
+    margin: 15px;
+    height: 25px;
     width: 130px;
 }
