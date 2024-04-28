@@ -1,5 +1,6 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
+import { updateGameboards, generateDefenseGrid } from './gameboardManager.js';
 
 function component(){
   let currentPlayer = playerOne;
@@ -81,51 +82,6 @@ function component(){
           });
     playerInfo.append(autoDeployShipsButton);
   };
-
-  function generateDefenseGrid(player){
-    const defenseGrid = document.querySelector('#defense .grid');
-    for(let i = 0 ; i < player.grid.length; i++){
-      if(player.grid[i].length == 4){
-        defenseGrid.children[i].classList.add('hit')
-      }
-      if(typeof player.grid[i][2] === "object"){
-        defenseGrid.children[i].classList.add('occupied');
-      }
-      if(typeof player.grid[i][2] === 'string'){
-        defenseGrid.children[i].classList.add('miss');
-      }
-    }
-  };
-
-  function generateOffenseGrid(player){
-    const attackGrid = document.querySelector('#offense .grid');
-    for(let i = 0; i < player.grid.length; i++){
-      if(typeof player.grid[i][2] === 'string'){
-        attackGrid.children[i].classList.add('noJoy');
-      };
-      if(player.grid[i].length == 4){
-        attackGrid.children[i].classList.add('joy')
-      };
-    };
-  };
-
-  function clearGrid(){
-    defenseCoordinates.forEach((e) => {
-      e.classList.remove('occupied');
-      e.classList.remove('hit');
-      e.classList.remove('miss');
-    });
-    attackCoordinates.forEach((e) => {
-      e.classList.remove('joy');
-      e.classList.remove('noJoy');
-    });
-  };
-
-  function updateGameboards(){
-    clearGrid();
-    generateDefenseGrid(currentPlayer);
-    generateOffenseGrid(nextPlayer);
-  };
   
   function changePlayer(){
     if(currentPlayer == playerOne){
@@ -136,7 +92,7 @@ function component(){
       nextPlayer = playerTwo;
     }
     currentPlayerID.textContent = `${currentPlayer.name}'s turn`;
-    updateGameboards();
+    updateGameboards(currentPlayer, nextPlayer);
   };
   
   function changeShipDirection(){
@@ -175,7 +131,7 @@ function component(){
       changePlayer();
       beginShipFormation(playerTwo);
     }else{
-      updateGameboards();
+      updateGameboards(currentPlayer, nextPlayer);
       changePlayer();
       defenseController.abort();
       document.querySelectorAll('.setupButton').forEach((e) => e.remove())
@@ -233,7 +189,7 @@ function component(){
           computerGeneratedAttack();
         }
       }
-      updateGameboards();
+      updateGameboards(currentPlayer, nextPlayer);
     }
 
     attackCoordinates.forEach((e) => {
@@ -243,7 +199,7 @@ function component(){
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
-    updateGameboards();
+    updateGameboards(currentPlayer, nextPlayer);
     return;
   };
 
