@@ -87,17 +87,7 @@ class GameBoard{
     }
 }
 
-// function tempPlace(player, start){
-//     for(let i = 0; i < 5; i++){
-//         player.placeShip(start + i, "vertical", player.ships[i]);
-//     }
-// }
-
-
 const playerOne = new GameBoard('Player One', 'human');
-const playerTwo = new GameBoard('Player Two', 'computer');
-
-
-
+const playerTwo = new GameBoard('Player Two', 'human');
 
 module.exports = {playerOne, playerTwo};

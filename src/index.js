@@ -1,8 +1,7 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
 
-
-function component(){
+function initGame(){
   let currentPlayer = playerOne;
   let nextPlayer = playerTwo;
 
@@ -21,15 +20,24 @@ function component(){
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
 
-  const playerInfo = document.querySelector('.playerInfo');
   let shipDirection = 'horizontal';
-  let directionButton = document.createElement('button');
-      directionButton.classList.add('directionButton');
-      directionButton.textContent = `Place ${shipDirection}ly`;
-      directionButton.addEventListener('click', changeShipDirection);
-      playerInfo.append(directionButton);
-  beginShipFormation(playerOne);
+  const playerInfo = document.querySelector('.playerInfo');
+  const directionButton = document.createElement('button');
+        directionButton.classList.add('directionButton');
+        directionButton.textContent = `Place ${shipDirection}ly`;
+        directionButton.addEventListener('click', changeShipDirection);
+    playerInfo.append(directionButton);
+  const placeRandomly = document.createElement('button');
+        placeRandomly.textContent = 'Place Randomly';
+        placeRandomly.addEventListener('click', () => {
+          placeShipsAtRandom();
+          generateDefenseGrid(currentPlayer);
+          console.log(currentPlayer.grid);
+        });
+    playerInfo.append(placeRandomly);
 
+  const defenseController = new AbortController();
+  beginShipFormation(playerOne);
 
   function createGrid(parent){
       const coordinateContainer = document.createElement('div');
@@ -104,61 +112,57 @@ function component(){
     directionButton.textContent = `Placed ${shipDirection}ly`;
   };
 
+  function placeShipsAtRandom(){
+    const binaryRandomNumber = generateRandomNumber(2);
+    const inRangeRandomNumber = generateRandomNumber(100);
+    while(currentPlayer.ships.length > 0){
+      addShipToUi(
+        binaryRandomNumber((num) => num == 0 ? 'horizontal' : 'vertical'), 
+        inRangeRandomNumber((num) => document.getElementById(num)),
+        currentPlayer
+      )};
+  };
+  function addShipToUi(direction, coordinate, player){
+    let target = parseInt(coordinate.getAttribute('id'));
+    if(player.ships.length > 0){
+      let ship = player.ships.shift();
+    if(player.placeShip(target, direction, ship) == true){
+        generateDefenseGrid(player);
+        return;
+      }else {
+      player.ships.unshift(ship);
+      return;
+      };
+    };
+    setUpNextPlayer();
+    
+  };
+  function setUpNextPlayer(){
+    console.log(`${currentPlayer.name}'s ships in formation`);
+    if(currentPlayer == playerOne){
+      changePlayer();
+      beginShipFormation(playerTwo);
+    }else{
+      updateGameboards();
+      defenseController.abort();
+      placeRandomly.remove();
+      directionButton.remove();
+      changePlayer();
+      startAttacks();
+    };
+  };
+
   function beginShipFormation(player){
     currentPlayer = player
     currentPlayerID.textContent = `${player.name}, place your ships`;
-    const defenseController = new AbortController();
+
     const { signal } = defenseController;
     if(player.type == 'human'){
-      // for(let i =0; i < 5; i++){
-      //   addShipToUi('vertical', document.getElementById(i), playerOne)
-      // }
       defenseCoordinates.forEach((e) => {
         e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
       })
     }else {
       placeShipsAtRandom();
-    };
-
-      function placeShipsAtRandom(){
-
-        const binaryRandomNumber = generateRandomNumber(2);
-        const inRangeRandomNumber = generateRandomNumber(100);
-        while(player.ships.length > 0){
-          addShipToUi(
-            binaryRandomNumber((num) => num == 0 ? 'horizontal' : 'vertical'), 
-            inRangeRandomNumber((num) => document.getElementById(num)),
-            currentPlayer);
-        };
-        setUpNextPlayer();
-      };
-
-    function addShipToUi(direction, coordinate, player){
-      let target = parseInt(coordinate.getAttribute('id'));
-      if(player.ships.length > 0){
-        let ship = player.ships.shift();
-        if(player.placeShip(target, direction, ship) == true){
-          generateDefenseGrid(player);
-          return;
-        }else {
-        player.ships.unshift(ship);
-        return;
-        };
-      }else {
-        defenseController.abort()
-        setUpNextPlayer();
-      };
-    };
-    function setUpNextPlayer(){
-      console.log(`${player.name}'s ships in formation`);
-      changePlayer();
-      if(player == playerOne){
-        beginShipFormation(playerTwo);
-      }else{
-        updateGameboards();
-        directionButton.remove();
-        startAttacks();
-      };
     };
   };
   const randomNumberHistory = [];
@@ -207,9 +211,9 @@ function component(){
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
-    updateGameboards();//change me
+    updateGameboards();
     return;
   };
 
 };
-component();
+initGame();

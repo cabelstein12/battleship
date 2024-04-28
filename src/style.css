@@ -13,12 +13,11 @@ header{
 
 .content{
     width: 100%;
-    height: 100%;
-    width: 100%;
+    height: 99%;
     display: grid;
     grid-template-columns: 10% 25% 30% 25% 10%;
     grid-template-rows: 100%;
-    overflow: hidden;
+
 }
 
 .coordinate {
@@ -99,7 +98,7 @@ header{
     background-color: grey;
 }
 
-.directionButton{
+button{
     padding: 5px;
     margin: 15px;
     height: 25px;
