@@ -10,9 +10,9 @@ function component(){
         
   setupPlayerGrids();
   setupPlayerControls();
+
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
-
 
   const defenseController = new AbortController();
 
@@ -76,11 +76,11 @@ function component(){
     for(let i = 0; i < player.grid.length; i++){
       if(typeof player.grid[i][2] === 'string'){
         attackGrid.children[i].classList.add('noJoy');
-      }
+      };
       if(player.grid[i].length == 4){
         attackGrid.children[i].classList.add('joy')
-      }
-    }
+      };
+    };
   };
 
   function clearGrid(){
@@ -88,11 +88,11 @@ function component(){
       e.classList.remove('occupied');
       e.classList.remove('hit');
       e.classList.remove('miss');
-    })
+    });
     attackCoordinates.forEach((e) => {
       e.classList.remove('joy');
       e.classList.remove('noJoy');
-    })
+    });
   };
 
   function updateGameboards(){
@@ -158,14 +158,14 @@ function component(){
   };
 
   function beginShipFormation(player){
-    currentPlayer = player
+    currentPlayer = player;
     currentPlayerID.textContent = `${player.name}, place your ships`;
 
     const { signal } = defenseController;
     if(player.type == 'human'){
       defenseCoordinates.forEach((e) => {
         e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
-      })
+      });
     }else {
       placeShipsAtRandom();
     };
@@ -189,7 +189,7 @@ function component(){
 
     function computerGeneratedAttack(){
       const inRangeRandomNumber = generateRandomNumber(100);
-      playerOne.receiveAttack(inRangeRandomNumber())
+      playerOne.receiveAttack(inRangeRandomNumber());
     }
 
     function placeAttack(){
@@ -210,8 +210,8 @@ function component(){
     }
 
     attackCoordinates.forEach((e) => {
-      e.addEventListener('click', placeAttack, { signal })
-      })
+      e.addEventListener('click', placeAttack, { signal });
+      });
   };
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
