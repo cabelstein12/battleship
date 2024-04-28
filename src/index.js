@@ -7,15 +7,8 @@ function component(){
 
   const currentPlayerID = document.querySelector('#currentPlayerID');
         currentPlayerID.textContent = `${currentPlayer.name}, place your ships`;
-
-  const defenseGridElement = document.getElementById('defense');
-  const offenseGridElement = document.getElementById('offense');
-
-  createGrid(defenseGridElement);
-  createGrid(offenseGridElement);
-  
-  const defenseGrid = document.querySelector('#defense .grid');
-  const attackGrid = document.querySelector('#offense .grid');
+        
+  setupPlayerGrids();
   
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
@@ -37,6 +30,7 @@ function component(){
     playerInfo.append(placeRandomly);
 
   const defenseController = new AbortController();
+
   beginShipFormation(playerOne);
 
   function createGrid(parent){
@@ -51,8 +45,17 @@ function component(){
           coordinateContainer.append(element);
       }
   };
+  function setupPlayerGrids(){
+
+    const defenseGridElement = document.getElementById('defense');
+    const offenseGridElement = document.getElementById('offense');
+    
+    createGrid(defenseGridElement);
+    createGrid(offenseGridElement);
+  }
 
   function generateDefenseGrid(player){
+    const defenseGrid = document.querySelector('#defense .grid');
     for(let i = 0 ; i < player.grid.length; i++){
       if(player.grid[i].length == 4){
         defenseGrid.children[i].classList.add('hit')
@@ -67,6 +70,7 @@ function component(){
   };
 
   function generateOffenseGrid(player){
+    const attackGrid = document.querySelector('#offense .grid');
     for(let i = 0; i < player.grid.length; i++){
       if(typeof player.grid[i][2] === 'string'){
         attackGrid.children[i].classList.add('noJoy');
