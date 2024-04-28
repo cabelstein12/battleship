@@ -1,6 +1,7 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
 import { updateGameboards, generateDefenseGrid } from './gameboardManager.js';
+import { setupPlayerGrids } from './gridSetup.js';
 
 function component(){
   let currentPlayer = playerOne;
@@ -44,26 +45,6 @@ function component(){
     playerSelectDiv.append(computerSelector);
   };
 
-  function createGrid(parent){
-      const coordinateContainer = document.createElement('div');
-            coordinateContainer.classList.add('grid');
-            parent.append(coordinateContainer);
-
-      for(let i = 0; i < 100; i++){
-          let element = document.createElement('div');
-          element.classList.add('coordinate');
-          element.setAttribute('id', i);
-          coordinateContainer.append(element);
-      }
-  };
-  function setupPlayerGrids(){
-    const defenseGridElement = document.getElementById('defense');
-    const offenseGridElement = document.getElementById('offense');
-    
-    createGrid(defenseGridElement);
-    createGrid(offenseGridElement);
-  }
-
   function setupPlayerControls(){
     const playerInfo = document.querySelector('.playerInfo');
     const directionButton = document.createElement('button');
@@ -81,6 +62,11 @@ function component(){
             document.getElementById('currentPlayerID').textContent = `${currentPlayer.name}, click anywhere on your grid to confirm`;
           });
     playerInfo.append(autoDeployShipsButton);
+
+    function changeShipDirection(){
+      shipDirection == 'vertical' ? shipDirection = 'horizontal' : shipDirection = 'vertical'; 
+      directionButton.textContent = `Placed ${shipDirection}ly`;
+    };
   };
   
   function changePlayer(){
@@ -95,11 +81,6 @@ function component(){
     updateGameboards(currentPlayer, nextPlayer);
   };
   
-  function changeShipDirection(){
-    shipDirection == 'vertical' ? shipDirection = 'horizontal' : shipDirection = 'vertical'; 
-    directionButton.textContent = `Placed ${shipDirection}ly`;
-  };
-
   function placeShipsAtRandom(){
     const binaryRandomNumber = generateRandomNumber(2);
     const inRangeRandomNumber = generateRandomNumber(100);
@@ -153,7 +134,7 @@ function component(){
       setUpNextPlayer();
     };
   };
-  const randomNumberHistory = [];
+
   function generateRandomNumber(max){
     const highestNum = max;
     return function randomNum(cb){
@@ -187,21 +168,21 @@ function component(){
           changePlayer(); 
         }else{
           computerGeneratedAttack();
-        }
-      }
+        };
+      };
       updateGameboards(currentPlayer, nextPlayer);
-    }
+    };
 
     attackCoordinates.forEach((e) => {
       e.addEventListener('click', placeAttack, { signal });
       });
   };
+
   function endGame(abortCntrl){
     console.log("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
     updateGameboards(currentPlayer, nextPlayer);
     return;
   };
-
 };
 component();
