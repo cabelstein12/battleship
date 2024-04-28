@@ -1,7 +1,7 @@
 import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
 
-function initGame(){
+function component(){
   let currentPlayer = playerOne;
   let nextPlayer = playerTwo;
 
@@ -134,20 +134,20 @@ function initGame(){
       return;
       };
     };
+    console.log(`${currentPlayer.name}'s ships in formation`);
     setUpNextPlayer();
     
   };
   function setUpNextPlayer(){
-    console.log(`${currentPlayer.name}'s ships in formation`);
     if(currentPlayer == playerOne){
       changePlayer();
       beginShipFormation(playerTwo);
     }else{
       updateGameboards();
+      changePlayer();
       defenseController.abort();
       placeRandomly.remove();
       directionButton.remove();
-      changePlayer();
       startAttacks();
     };
   };
@@ -216,4 +216,4 @@ function initGame(){
   };
 
 };
-initGame();
+component();
