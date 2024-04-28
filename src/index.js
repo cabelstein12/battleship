@@ -6,17 +6,42 @@ function component(){
   let nextPlayer = playerTwo;
   let shipDirection = 'horizontal';
   const currentPlayerID = document.querySelector('#currentPlayerID');
-        currentPlayerID.textContent = `${currentPlayer.name}, place your ships`;
-        
+      
   setupPlayerGrids();
   setupPlayerControls();
+  chooseOpponent();
 
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
-
   const defenseController = new AbortController();
 
   beginShipFormation(playerOne);
+
+  function chooseOpponent(){
+    const popup = document.createElement('div');
+    popup.setAttribute('id', 'popup');
+    document.body.append(popup);
+
+    const playerSelectDiv = document.createElement('div');
+          playerSelectDiv.setAttribute('id', 'playerQuestion');
+          playerSelectDiv.textContent = 'Choose Your Opponent:';
+          popup.append(playerSelectDiv);
+
+    const humanSelector = document.createElement('button');
+          humanSelector.textContent = 'Human';
+          humanSelector.addEventListener('click', () => {
+            playerTwo.type = 'human';
+            popup.remove();
+          });
+    const computerSelector = document.createElement('button');
+          computerSelector.textContent = 'Computer';
+          computerSelector.addEventListener('click', () => {
+            playerTwo.type = 'computer';
+            popup.remove();
+          });
+    playerSelectDiv.append(humanSelector);
+    playerSelectDiv.append(computerSelector);
+  };
 
   function createGrid(parent){
       const coordinateContainer = document.createElement('div');
@@ -45,6 +70,7 @@ function component(){
           directionButton.textContent = `Place ${shipDirection}ly`;
           directionButton.addEventListener('click', changeShipDirection);
     playerInfo.append(directionButton);
+
     const autoDeployShipsButton = document.createElement('button');
           autoDeployShipsButton.textContent = 'Auto Place Ships';
           autoDeployShipsButton.classList.add('setupButton');
@@ -54,7 +80,7 @@ function component(){
             document.getElementById('currentPlayerID').textContent = `${currentPlayer.name}, click anywhere on your grid to confirm`;
           });
     playerInfo.append(autoDeployShipsButton);
-  }
+  };
 
   function generateDefenseGrid(player){
     const defenseGrid = document.querySelector('#defense .grid');

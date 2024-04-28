@@ -104,3 +104,17 @@ button{
     height: 25px;
     width: 130px;
 }
+
+#popup {
+    position: fixed;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    width: 50%;
+    height: 13%;
+    top: 7%;
+    left: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -88,6 +88,6 @@ class GameBoard{
 }
 
 const playerOne = new GameBoard('Player One', 'human');
-const playerTwo = new GameBoard('Player Two', 'computer');
+const playerTwo = new GameBoard('Player Two', undefined);
 
 module.exports = {playerOne, playerTwo};
