@@ -168,6 +168,7 @@ function component(){
       });
     }else {
       placeShipsAtRandom();
+      setUpNextPlayer();
     };
   };
   const randomNumberHistory = [];
