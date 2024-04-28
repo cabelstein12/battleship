@@ -4,30 +4,15 @@ import {playerOne, playerTwo} from './gameLogic.js';
 function component(){
   let currentPlayer = playerOne;
   let nextPlayer = playerTwo;
-
+  let shipDirection = 'horizontal';
   const currentPlayerID = document.querySelector('#currentPlayerID');
         currentPlayerID.textContent = `${currentPlayer.name}, place your ships`;
         
   setupPlayerGrids();
-  
+  setupPlayerControls();
   const defenseCoordinates = document.querySelectorAll('#defense .coordinate');
   const attackCoordinates = document.querySelectorAll("#offense .coordinate");
 
-  let shipDirection = 'horizontal';
-  const playerInfo = document.querySelector('.playerInfo');
-  const directionButton = document.createElement('button');
-        directionButton.classList.add('directionButton');
-        directionButton.textContent = `Place ${shipDirection}ly`;
-        directionButton.addEventListener('click', changeShipDirection);
-    playerInfo.append(directionButton);
-  const placeRandomly = document.createElement('button');
-        placeRandomly.textContent = 'Place Randomly';
-        placeRandomly.addEventListener('click', () => {
-          placeShipsAtRandom();
-          generateDefenseGrid(currentPlayer);
-          console.log(currentPlayer.grid);
-        });
-    playerInfo.append(placeRandomly);
 
   const defenseController = new AbortController();
 
@@ -46,12 +31,29 @@ function component(){
       }
   };
   function setupPlayerGrids(){
-
     const defenseGridElement = document.getElementById('defense');
     const offenseGridElement = document.getElementById('offense');
     
     createGrid(defenseGridElement);
     createGrid(offenseGridElement);
+  }
+
+  function setupPlayerControls(){
+    const playerInfo = document.querySelector('.playerInfo');
+    const directionButton = document.createElement('button');
+          directionButton.classList.add('setupButton');
+          directionButton.textContent = `Place ${shipDirection}ly`;
+          directionButton.addEventListener('click', changeShipDirection);
+    playerInfo.append(directionButton);
+    const autoDeployShipsButton = document.createElement('button');
+          autoDeployShipsButton.textContent = 'Auto Place Ships';
+          autoDeployShipsButton.classList.add('setupButton');
+          autoDeployShipsButton.addEventListener('click', () => {
+            placeShipsAtRandom();
+            generateDefenseGrid(currentPlayer);
+            document.getElementById('currentPlayerID').textContent = `${currentPlayer.name}, click anywhere on your grid to confirm`;
+          });
+    playerInfo.append(autoDeployShipsButton);
   }
 
   function generateDefenseGrid(player){
@@ -150,8 +152,7 @@ function component(){
       updateGameboards();
       changePlayer();
       defenseController.abort();
-      placeRandomly.remove();
-      directionButton.remove();
+      document.querySelectorAll('.setupButton').forEach((e) => e.remove())
       startAttacks();
     };
   };
