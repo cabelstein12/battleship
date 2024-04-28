@@ -28,7 +28,6 @@ function component(){
       directionButton.textContent = `Place ${shipDirection}ly`;
       directionButton.addEventListener('click', changeShipDirection);
       playerInfo.append(directionButton);
-
   beginShipFormation(playerOne);
 
 
@@ -111,9 +110,9 @@ function component(){
     const defenseController = new AbortController();
     const { signal } = defenseController;
     if(player.type == 'human'){
-      for(let i =0; i < 5; i++){
-        addShipToUi('vertical', document.getElementById(i), playerOne)
-      }
+      // for(let i =0; i < 5; i++){
+      //   addShipToUi('vertical', document.getElementById(i), playerOne)
+      // }
       defenseCoordinates.forEach((e) => {
         e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
       })
@@ -179,19 +178,30 @@ function component(){
     const attackController = new AbortController();
     const { signal } = attackController;
 
+    function computerGeneratedAttack(){
+      const inRangeRandomNumber = generateRandomNumber(100);
+      playerOne.receiveAttack(inRangeRandomNumber())
+    }
+
+    function placeAttack(){
+      console.log(currentPlayer.name)
+      let target = parseInt(this.getAttribute('id'));
+      let attack = nextPlayer.receiveAttack(target);
+      if(nextPlayer.checkDefeat()){
+        return endGame(attackController);
+      }
+      if(attack !== "Try Again"){
+        if(playerTwo.type == 'human'){
+          changePlayer(); 
+        }else{
+          computerGeneratedAttack();
+        }
+      }
+      updateGameboards();
+    }
+
     attackCoordinates.forEach((e) => {
-      e.addEventListener('click', function(){
-          console.log(currentPlayer.name)
-          let target = parseInt(this.getAttribute('id'));
-          let attack = nextPlayer.receiveAttack(target);
-          if(nextPlayer.checkDefeat()){
-            return endGame(attackController);
-          }
-          if(attack !== "Try Again"){
-            changePlayer(); 
-          }
-          updateGameboards();
-        }, { signal })
+      e.addEventListener('click', placeAttack, { signal })
       })
   };
   function endGame(abortCntrl){
