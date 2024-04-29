@@ -1,3 +1,5 @@
+import { updateLog } from "./eventLog";
+
 class Ship {
     constructor(name, length){
         this.name = name;
@@ -12,7 +14,7 @@ class Ship {
     isSunk(){
         if(this.timesHit == this.length){
             this.sunk = true;
-            console.log(`Our ${this.name} has sunk, Captain!`);
+            updateLog(`Our ${this.name} has sunk, Captain!`);
         }
     }
 }
@@ -30,7 +32,7 @@ class GameBoard{
     }
     checkDefeat(){
         if(this.casualties.length == 5){
-            console.log(`${this.name} LOST`);
+            updateLog(`${this.name} LOST`);
             return true;
         }
     }
@@ -41,14 +43,15 @@ class GameBoard{
         new Ship('Submarine', 3),
         new Ship('Destroyer', 2)
     ]
-    placeShip(startIndex, direction = 'horizontal', ship){
+    placeShip(startIndex, direction = 'horizontal', ship, isRandom){
         let board = this;
         let start = startIndex;
         let counter = ship.length
         while(counter > 0){
-            console.log(start)
             if(checkOutOfBounds() == false || board.grid[start][2] !== undefined){
-                console.log('invalid location');
+                if(!isRandom){
+                    updateLog(`${this.name}, Invalid Location. Try Again.`);
+                }
                 return false;
             }
             counter--;
@@ -78,17 +81,17 @@ class GameBoard{
                 this.casualties.push(ship);
             };
             this.grid[coord].push('Hit!');
-            console.log('Hit!');
+            updateLog(`${this.name} Hit!`);
             return "Hit!";
         }
         else if(this.grid[coord][2] == undefined){
             this.grid[coord][2] = 'miss'
             this.missedShotLog.push(coord);
-            console.log('Missed!');
+            updateLog(`${this.name} Missed!`);
             return "Miss!";
         }
         else {
-            console.log('Coordinate already played... Try again');
+            updateLog('Coordinate already played... Try again');
             return "Try Again";
         }
     }
@@ -97,4 +100,4 @@ class GameBoard{
 const playerOne = new GameBoard('Player One', 'human');
 const playerTwo = new GameBoard('Player Two', undefined);
 
-module.exports = {playerOne, playerTwo};
+export {playerOne, playerTwo};

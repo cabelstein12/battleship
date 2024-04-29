@@ -2,6 +2,7 @@ import './style.css';
 import {playerOne, playerTwo} from './gameLogic.js';
 import { updateGameboards, generateDefenseGrid } from './gameboardManager.js';
 import { setupPlayerGrids } from './gridSetup.js';
+import { updateLog } from './eventLog.js';
 
 function component(){
   let currentPlayer = playerOne;
@@ -28,6 +29,9 @@ function component(){
           playerSelectDiv.setAttribute('id', 'playerQuestion');
           playerSelectDiv.textContent = 'Choose Your Opponent:';
           popup.append(playerSelectDiv);
+    const buttonDiv = document.createElement('div');
+          buttonDiv.setAttribute('id', 'buttonBar');
+    popup.append(buttonDiv);
 
     const humanSelector = document.createElement('button');
           humanSelector.textContent = 'Human';
@@ -41,8 +45,8 @@ function component(){
             playerTwo.type = 'computer';
             popup.remove();
           });
-    playerSelectDiv.append(humanSelector);
-    playerSelectDiv.append(computerSelector);
+    buttonDiv.append(humanSelector);
+    buttonDiv.append(computerSelector);
   };
 
   function setupPlayerControls(){
@@ -88,14 +92,15 @@ function component(){
       addShipToUi(
         binaryRandomNumber((num) => num == 0 ? 'horizontal' : 'vertical'), 
         inRangeRandomNumber((num) => document.getElementById(num)),
-        currentPlayer
+        currentPlayer,
+        true
       )};
   };
-  function addShipToUi(direction, coordinate, player){
+  function addShipToUi(direction, coordinate, player, isRandom){
     let target = parseInt(coordinate.getAttribute('id'));
     if(player.ships.length > 0){
       let ship = player.ships.shift();
-    if(player.placeShip(target, direction, ship) == true){
+    if(player.placeShip(target, direction, ship, isRandom) == true){
         generateDefenseGrid(player);
         return;
       }else {
@@ -103,7 +108,7 @@ function component(){
       return;
       };
     };
-    console.log(`${currentPlayer.name}'s ships in formation`);
+    updateLog(`${currentPlayer.name}'s ships in formation`);
     setUpNextPlayer();
     
   };
@@ -130,8 +135,8 @@ function component(){
         e.addEventListener('click', () => {addShipToUi(shipDirection, e, currentPlayer)}, {signal});
       });
     }else {
-      placeShipsAtRandom();
-      setUpNextPlayer();
+        placeShipsAtRandom();
+        setUpNextPlayer();
     };
   };
 
@@ -157,7 +162,6 @@ function component(){
     }
 
     function placeAttack(){
-      console.log(currentPlayer.name)
       let target = parseInt(this.getAttribute('id'));
       let attack = nextPlayer.receiveAttack(target);
       if(nextPlayer.checkDefeat()){
@@ -167,7 +171,9 @@ function component(){
         if(playerTwo.type == 'human'){
           changePlayer(); 
         }else{
-          computerGeneratedAttack();
+          setTimeout(() => {
+            computerGeneratedAttack();
+          }, 500);
         };
       };
       updateGameboards(currentPlayer, nextPlayer);
@@ -179,7 +185,7 @@ function component(){
   };
 
   function endGame(abortCntrl){
-    console.log("GAME OVER", `${currentPlayer.name} Wins`);
+    updateLog("GAME OVER", `${currentPlayer.name} Wins`);
     abortCntrl.abort();
     updateGameboards(currentPlayer, nextPlayer);
     return;
