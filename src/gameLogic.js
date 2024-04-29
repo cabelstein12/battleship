@@ -44,27 +44,23 @@ class GameBoard{
     placeShip(startIndex, direction = 'horizontal', ship){
         let board = this;
         let start = startIndex;
-        if(!checkValid()){return false};
+        let counter = ship.length
+        while(counter > 0){
+            console.log(start)
+            if(checkOutOfBounds() == false || board.grid[start][2] !== undefined){
+                console.log('invalid location');
+                return false;
+            }
+            counter--;
+            direction == "horizontal" ? start++ : start += 10; 
+        }
         for(let i = 0; i < ship.length; i++){
-            board.grid[start].push(ship);
-            direction == "horizontal" ? start++ : start = start + 10; 
+            board.grid[startIndex].push(ship);
+            direction == "horizontal" ? startIndex++ : startIndex += 10; 
         }
         return true;
         
-        function checkValid(){
-            let counter = ship.length
-            let start = startIndex
-            while(counter > 0){
-                console.log(start)
-                if(checkOutOfBounds() == false || board.grid[start][2] !== undefined){
-                    console.log('invalid location');
-                    return false;
-                }
-                counter--;
-                direction == "horizontal" ? start++ : start = start + 10; 
-            }
-            return true;
-        }
+    
         function checkOutOfBounds(){
             return (direction == 'horizontal' && board.grid[startIndex][1] + ship.length <= 10) ||
                    (direction == 'vertical' && board.grid[startIndex][0] + ship.length <= 10)
