@@ -53,7 +53,7 @@ function component(){
     const playerInfo = document.querySelector('.playerInfo');
     const directionButton = document.createElement('button');
           directionButton.classList.add('setupButton');
-          directionButton.textContent = `Place ${shipDirection}ly`;
+          directionButton.textContent = `Placed ${shipDirection}ly`;
           directionButton.addEventListener('click', changeShipDirection);
     playerInfo.append(directionButton);
 

@@ -81,13 +81,13 @@ class GameBoard{
                 this.casualties.push(ship);
             };
             this.grid[coord].push('Hit!');
-            updateLog(`${this.name} Hit!`);
+            updateLog(`${this.name} was Hit!`);
             return "Hit!";
         }
         else if(this.grid[coord][2] == undefined){
             this.grid[coord][2] = 'miss'
             this.missedShotLog.push(coord);
-            updateLog(`${this.name} Missed!`);
+            updateLog(`${this.name} was Missed!`);
             return "Miss!";
         }
         else {

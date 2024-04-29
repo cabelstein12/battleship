@@ -1,4 +1,5 @@
 body{
+    height: 90vh;
     margin: 1%;
 }
 
@@ -7,6 +8,7 @@ h1{
     padding-bottom: 0px;
     margin: 10px;
 }
+
 header{
     padding:15px;
 }
@@ -16,12 +18,11 @@ header{
     height: 99%;
     display: grid;
     grid-template-columns: 10% 25% 30% 25% 10%;
-    grid-template-rows: 100% 50%;
-
+    grid-template-rows: 5% 50% 27%;
 }
 
 #gameLog{
-    grid-row: 2 / 2;
+    grid-row: 3 / 3;
     grid-column: 3 / 4;
     justify-self: center;
     text-align: center;
@@ -29,12 +30,26 @@ header{
     border-style: dashed;
     border-radius: 5px;
     width: 150%;
+    height: 100%;
+}
+#gameLog hr {
+    margin:  0;
+}
+.logs {
     overflow-y: scroll;
+    height: 90%;
+    margin: 0px 8px;
+}
+
+.entry{
+    display: flex;
+    justify-content: space-between;
 }
 
 #gameLog p {
     padding: 0;
     margin: 0;
+
 }
 
 .coordinate {
@@ -52,21 +67,20 @@ header{
 #defense,   
 #offense {
     display: inline-grid;
-    grid-template-rows: 10% 90%;
     justify-content: center;
     text-align: center;
     padding: 2%;
+    height: min-content;
+    grid-row: 2 / 2;
 }
 
 #defense{
     grid-column: 2 / 3;
-    /* position: fixed; */
     left: 10%;
 }
 
 #offense{
     grid-column: 4 / 5;
-    /* position: fixed; */
     right: 10%
 }
 
@@ -76,6 +90,12 @@ header{
     grid-row-start: 1;
     height: min-content;
     width: max-content;
+}
+#def{
+    grid-column: 2 / 2;
+}
+#off{
+    grid-column: 4 / 4;
 }
 
 .playerInfo{
@@ -92,12 +112,11 @@ header{
 }
 
  .grid{
-    /* position: relative; */
-    grid-row-start: 2;
     display: inline-grid;
-    grid-template-columns: repeat(10, 4vw);
-    grid-template-rows: repeat(10, 4vw);
+    grid-template-columns: repeat(10, clamp(2vh, 4vh, 60px));
+    grid-template-rows: repeat(10, clamp(2vh, 4vh, 60px));
     padding: 25px;
+    height: min-content;
  }
 
  .occupied{
