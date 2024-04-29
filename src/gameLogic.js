@@ -43,20 +43,31 @@ class GameBoard{
     ]
     placeShip(startIndex, direction = 'horizontal', ship){
         let board = this;
-        let lengthCount = ship.length;
-        let start = startIndex
-        while(lengthCount > 0){
-            if(checkValid() == false || this.grid[start][2] !== undefined){
-                console.log('invalid location');
-                return false;
-            }
-            this.grid[start].push(ship);
+        let start = startIndex;
+        if(!checkValid()){return false};
+        for(let i = 0; i < ship.length; i++){
+            board.grid[start].push(ship);
             direction == "horizontal" ? start++ : start = start + 10; 
-            lengthCount--;
         }
         return true;
+        
         function checkValid(){
-            return (direction == 'horizontal' && board.grid[startIndex][1] + ship.length <= 10) || (direction == 'vertical' && board.grid[startIndex][0] + ship.length <= 10)
+            let counter = ship.length
+            let start = startIndex
+            while(counter > 0){
+                console.log(start)
+                if(checkOutOfBounds() == false || board.grid[start][2] !== undefined){
+                    console.log('invalid location');
+                    return false;
+                }
+                counter--;
+                direction == "horizontal" ? start++ : start = start + 10; 
+            }
+            return true;
+        }
+        function checkOutOfBounds(){
+            return (direction == 'horizontal' && board.grid[startIndex][1] + ship.length <= 10) ||
+                   (direction == 'vertical' && board.grid[startIndex][0] + ship.length <= 10)
         }
     }
     missedShotLog = [];
