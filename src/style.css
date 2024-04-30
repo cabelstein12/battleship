@@ -30,7 +30,7 @@ header{
     border: 1px solid black;
     border-style: dashed;
     border-radius: 5px;
-    width: 100%;
+    width: max(230px, 100%);
     height: 100%;
     margin-top: 30px;
 }
@@ -49,10 +49,8 @@ header{
 
 .entry{
     display: grid;
-    grid-template-columns: 30% 67%;
+    grid-template-columns: 23% 70%;
 }
-
-
 
 #event {
  text-align: right;
@@ -83,18 +81,15 @@ header{
     justify-content: center;
     text-align: center;
     padding: 2%;
-    height: min-content;
     grid-row: 2 / 2;
 }
 
 #defense{
     grid-column: 2 / 3;
-    left: 10%;
 }
 
 #offense{
     grid-column: 4 / 5;
-    right: 10%
 }
 
 .gridID{
@@ -126,10 +121,9 @@ header{
 
  .grid{
     display: inline-grid;
-    grid-template-columns: repeat(10, clamp(2vh, 4vh, 60px));
-    grid-template-rows: repeat(10, clamp(2vh, 4vh, 60px));
-    padding: 25px;
-    height: min-content;
+    grid-template-columns: repeat(10, clamp(1vw, 4vw, 60px));
+    grid-template-rows: repeat(10, clamp(1vw, 4vh, 70px));
+    height: min-content;    
  }
 
  .occupied{
