@@ -1,9 +1,10 @@
 import { updateLog } from "./eventLog";
 
 class Ship {
-    constructor(name, length){
+    constructor(name, length, player){
         this.name = name;
         this.length = length;
+        this.player = player;
         this.timesHit = 0;
         this.sunk = false;
     }
@@ -14,7 +15,7 @@ class Ship {
     isSunk(){
         if(this.timesHit == this.length){
             this.sunk = true;
-            updateLog(`Our ${this.name} has sunk, Captain!`);
+            updateLog(`Your ${this.name} has sunk, ${this.player.name}!`);
         }
     }
 }
@@ -37,11 +38,11 @@ class GameBoard{
         }
     }
     ships = [
-        new Ship('Carrier', 5),
-        new Ship('Battleship', 4),
-        new Ship('Cruiser', 3),
-        new Ship('Submarine', 3),
-        new Ship('Destroyer', 2)
+        new Ship('Carrier', 5, this),
+        new Ship('Battleship', 4, this),
+        new Ship('Cruiser', 3, this),
+        new Ship('Submarine', 3, this),
+        new Ship('Destroyer', 2, this)
     ]
     placeShip(startIndex, direction = 'horizontal', ship, isRandom){
         let board = this;
