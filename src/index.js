@@ -186,7 +186,8 @@ function component(){
   };
 
   function endGame(abortCntrl){
-    updateLog("GAME OVER", `${currentPlayer.name} Wins`);
+    updateLog(`${currentPlayer.name} Wins`);
+    document.querySelector('#currentPlayerID').textContent = 'GAME OVER'
     abortCntrl.abort();
     updateGameboards(currentPlayer, nextPlayer);
     return;
