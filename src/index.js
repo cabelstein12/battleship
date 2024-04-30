@@ -171,9 +171,7 @@ function component(){
         if(playerTwo.type == 'human'){
           changePlayer(); 
         }else{
-          setTimeout(() => {
             computerGeneratedAttack();
-          }, 500);
         };
       };
       updateGameboards(currentPlayer, nextPlayer);

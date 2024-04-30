@@ -8,8 +8,10 @@ function updateLog(text){
     const newEntry = document.createElement('div');
     newEntry.setAttribute('class', 'entry');
     const time = document.createElement('span');
+          time.setAttribute('id', 'time')
           time.textContent = getTime();
     const event = document.createElement('span');
+          event.setAttribute('id', 'event')
           event.textContent = text;
 
     newEntry.append(time);
