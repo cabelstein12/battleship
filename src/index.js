@@ -158,7 +158,10 @@ function component(){
 
     function computerGeneratedAttack(){
       const inRangeRandomNumber = generateRandomNumber(100);
-      playerOne.receiveAttack(inRangeRandomNumber());
+      let randomNumber = inRangeRandomNumber();
+      if(playerOne.receiveAttack(randomNumber) == 'Try Again'){
+        computerGeneratedAttack();
+      }
     }
 
     function placeAttack(){
