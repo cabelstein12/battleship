@@ -174,3 +174,22 @@ button{
 #buttonBar > * {
     width: 150%;
 }
+
+#gridBlocker {
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    position: absolute;
+}
+
+#gridBlocker button {
+    position: fixed;
+    width: max-content;
+    height: min-content;
+    left: 44%;
+    top: 50%;
+}
+
+.gameEnd {
+    background-color: gold;
+}
